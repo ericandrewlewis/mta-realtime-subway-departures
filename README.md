@@ -42,11 +42,17 @@ arrivals = [
 ```
 
 `line` the subway line
+
 `direction` either `N` or `S`. 
+
     - `N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central"
+
     - `S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square"
+
 `stopName` The stop name, as defined by the MTA's [`Stations.csv`](http://web.mta.info/developers/data/nyct/subway/Stations.csv)
+
 `GTFSStopId` the GTFS Stop ID
+
 `time` the arrival time of the train in Unix time
 
 ## External Resources
