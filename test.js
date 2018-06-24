@@ -9,10 +9,4 @@ client.arrivals({ lines: 'L', stations: '1 Av' })
     }
   });
 
-const { stations } = require('./index');
-
-if (typeof stations[0]["Station ID"] !== 'string') {
-  throw new Error('stations should contain an object with a `Station ID` property');
-}
-
 console.log('Tests complete');

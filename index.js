@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const unique = require('array-unique');
 const subwayLineToFeedIdMap = require('./subwayLineToFeedIdMap');
 const GTFSStopIdToStationNameMap = require('./GTFSStopIdToStationNameMap');
-const stations = require('./stations');
 
 const transit = protobuf.loadProtoFile(
   path.join(__dirname, 'nyct-subway.proto'),
@@ -98,5 +97,4 @@ const createClient = apiKey => ({
 
 module.exports = {
   createClient,
-  stations,
 };
