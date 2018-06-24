@@ -1,7 +1,5 @@
 const protobuf = require('protobufjs');
 const fetch = require('node-fetch');
-const parse = require('csv-parse');
-const moment = require('moment-timezone');
 const unique = require('array-unique');
 const subwayLineToFeedIdMap = require('./subwayLineToFeedIdMap');
 const GTFSStopIdToStationNameMap = require('./GTFSStopIdToStationNameMap');
