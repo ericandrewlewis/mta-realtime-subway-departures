@@ -44,6 +44,8 @@ const extractStopTimeUpdatesFromFeed = feed => feed.entity.map((message) => {
   return null;
 }).filter(value => value !== null);
 
+// Provided a group of feed messages, extract arrivals
+// that match the provided lines and stations.
 const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations }) => {
   const matches = [];
   feedMessages.forEach((feedMessage) => {
@@ -76,7 +78,7 @@ const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations
   return matches;
 };
 
-const mtaLib = apiKey => ({
+const createApiClient = apiKey => ({
   arrivals({ lines, stations }) {
     if (typeof lines === 'string') {
       lines = [lines];
@@ -100,3 +102,5 @@ const mtaLib = apiKey => ({
       });
   },
 });
+
+module.exports = createApiClient;
