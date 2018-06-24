@@ -4,9 +4,10 @@ const fetch = require('node-fetch');
 const unique = require('array-unique');
 const subwayLineToFeedIdMap = require('./subwayLineToFeedIdMap');
 const GTFSStopIdToStationNameMap = require('./GTFSStopIdToStationNameMap');
+const stations = require('./stations');
 
 const transit = protobuf.loadProtoFile(
-  path.join(__dirname, 'nyct-subway.proto')
+  path.join(__dirname, 'nyct-subway.proto'),
 );
 const builder = transit.build('transit_realtime');
 
@@ -65,30 +66,37 @@ const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations
   return matches;
 };
 
-const createApiClient = apiKey => ({
-  arrivals({ lines, stations }) {
-    if (typeof lines === 'string') {
-      lines = [lines];
-    }
-    if (typeof stations === 'string') {
-      stations = [stations];
-    }
-    return fetchLineFeeds({ apiKey, lines })
-      .then((feeds) => {
-        let arrivals = [];
-        feeds.forEach((feed) => {
-          arrivals = arrivals.concat(
-            extractRelevantArrivalsFromFeedMessages({
-              feedMessages: feed.entity,
-              lines,
-              stations,
-            }),
-          );
-        });
-        arrivals = arrivals.sort((a, b) => a.time - b.time);
-        return arrivals;
+const arrivals = ({ apiKey, lines, stations }) => {
+  if (typeof lines === 'string') {
+    lines = [lines];
+  }
+  if (typeof stations === 'string') {
+    stations = [stations];
+  }
+  return fetchLineFeeds({ apiKey, lines })
+    .then((feeds) => {
+      let arrivals = [];
+      feeds.forEach((feed) => {
+        arrivals = arrivals.concat(
+          extractRelevantArrivalsFromFeedMessages({
+            feedMessages: feed.entity,
+            lines,
+            stations,
+          }),
+        );
       });
+      arrivals = arrivals.sort((a, b) => a.time - b.time);
+      return arrivals;
+    });
+};
+
+const createClient = apiKey => ({
+  arrivals({ lines, stations }) {
+    return arrivals({ apiKey, lines, stations });
   },
 });
 
-module.exports = createApiClient;
+module.exports = {
+  createClient,
+  stations,
+};
