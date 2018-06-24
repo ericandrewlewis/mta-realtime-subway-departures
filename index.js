@@ -49,7 +49,7 @@ const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations
       const stopId = stopIdAndDirection.substring(0, stopIdAndDirection.length - 1);
       const direction = stopIdAndDirection.substring(stopIdAndDirection.length - 1);
       const stopName = GTFSStopIdToStationNameMap[stopId];
-      if (!stations.includes(stopName)) {
+      if (stations && !stations.includes(stopName)) {
         return;
       }
       const arrival = {
@@ -66,6 +66,10 @@ const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations
 };
 
 const arrivals = ({ apiKey, lines, stations }) => {
+  // If lines is not supplied, get all lines.
+  if (typeof lines === 'undefined') {
+    lines = Object.keys(subwayLineToFeedIdMap);
+  }
   if (typeof lines === 'string') {
     lines = [lines];
   }
