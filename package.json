@@ -1,0 +1,25 @@
+{
+  "name": "mta-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "array-unique": "^0.3.2",
+    "csv-parse": "^2.5.0",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.20",
+    "node-fetch": "^2.1.2",
+    "protobufjs": "^5.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.12.0"
+  }
+}
