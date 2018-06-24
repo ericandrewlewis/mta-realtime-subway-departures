@@ -1,6 +1,6 @@
-# MTA Realtime Subway Arrival API
+# MTA Realtime Subway Arrival Client
 
-This is a JavaScript library for New York City's MTA GTFS-realtime Subway API.
+This is a JavaScript client for New York City's MTA GTFS-realtime Subway API.
 
 ## Usage
 

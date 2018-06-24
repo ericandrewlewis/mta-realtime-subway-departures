@@ -1,14 +1,16 @@
 {
-  "name": "mta-realtime-subway-arrival-api-client",
+  "name": "mta-realtime-subway-arrival-client",
   "version": "0.0.1",
-  "description": "",
+  "description": "Access realtime subway arrival data for the New York City MTA subway system.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "nyc", "subway", "mta"
+  ],
+  "author": "Eric Lewis",
+  "license": "MIT",
   "dependencies": {
     "array-unique": "^0.3.2",
     "csv-parse": "^2.5.0",
