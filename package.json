@@ -1,6 +1,6 @@
 {
   "name": "mta-realtime-subway-arrival-client",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Access realtime subway arrival data for the New York City MTA subway system.",
   "main": "index.js",
   "scripts": {
