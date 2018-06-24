@@ -1,10 +1,13 @@
 const protobuf = require('protobufjs');
+const path = require('path');
 const fetch = require('node-fetch');
 const unique = require('array-unique');
 const subwayLineToFeedIdMap = require('./subwayLineToFeedIdMap');
 const GTFSStopIdToStationNameMap = require('./GTFSStopIdToStationNameMap');
 
-const transit = protobuf.loadProtoFile('nyct-subway.proto');
+const transit = protobuf.loadProtoFile(
+  path.join(__dirname, 'nyct-subway.proto')
+);
 const builder = transit.build('transit_realtime');
 
 // Construct an apiUrl for the provided subway line.
