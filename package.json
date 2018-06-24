@@ -4,16 +4,20 @@
   "description": "Access realtime subway arrival data for the New York City MTA subway system.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js",
+    "lint": "eslint index.js test.js writeStationsJson.js writeGTFSStopIdToStationIdMap.js"
   },
   "keywords": [
-    "nyc", "subway", "mta"
+    "nyc",
+    "subway",
+    "mta"
   ],
   "author": "Eric Lewis",
   "license": "MIT",
   "dependencies": {
     "array-unique": "^0.3.2",
     "csv-parse": "^2.5.0",
+    "dotenv": "^6.0.0",
     "node-fetch": "^2.1.2",
     "protobufjs": "^5.0.1"
   },
