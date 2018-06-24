@@ -31,9 +31,9 @@ const fetchLineFeeds = ({ apiKey, lines }) => {
   );
 };
 
-// Provided a group of feed messages, extract arrivals
+// Provided a group of feed messages, extract departures
 // that match the provided lines and stations.
-const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations }) => {
+const extractRelevantDeparturesFromFeedMessages = ({ feedMessages, lines, stations }) => {
   const matches = [];
   feedMessages.forEach((feedMessage) => {
     // Skip feedMessages that don't include a trip update.
@@ -52,20 +52,24 @@ const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations
       if (stations && !stations.includes(stopName)) {
         return;
       }
-      const arrival = {
+      if (stopTimeUpdate.departure === null) {
+        return;
+      }
+      const time = stopTimeUpdate.departure.time.low;
+      const departure = {
         line,
         direction,
         stopName,
         GTFSStopId: stopId,
-        time: stopTimeUpdate.arrival.time.low,
+        time,
       };
-      matches.push(arrival);
+      matches.push(departure);
     });
   });
   return matches;
 };
 
-const arrivals = ({ apiKey, lines, stations }) => {
+const fetchDepartures = ({ apiKey, lines, stations }) => {
   // If lines is not supplied, get all lines.
   if (typeof lines === 'undefined') {
     lines = Object.keys(subwayLineToFeedIdMap);
@@ -78,24 +82,24 @@ const arrivals = ({ apiKey, lines, stations }) => {
   }
   return fetchLineFeeds({ apiKey, lines })
     .then((feeds) => {
-      let arrivals = [];
+      let departures = [];
       feeds.forEach((feed) => {
-        arrivals = arrivals.concat(
-          extractRelevantArrivalsFromFeedMessages({
+        departures = departures.concat(
+          extractRelevantDeparturesFromFeedMessages({
             feedMessages: feed.entity,
             lines,
             stations,
           }),
         );
       });
-      arrivals = arrivals.sort((a, b) => a.time - b.time);
-      return arrivals;
+      departures = departures.sort((a, b) => a.time - b.time);
+      return departures;
     });
 };
 
 const createClient = apiKey => ({
-  arrivals({ lines, stations }) {
-    return arrivals({ apiKey, lines, stations });
+  departures({ lines, stations }) {
+    return fetchDepartures({ apiKey, lines, stations });
   },
 });
 

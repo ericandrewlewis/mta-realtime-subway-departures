@@ -1,38 +1,38 @@
-# MTA Realtime Subway Arrival Client
+# MTA Realtime Subway Departures Client
 
 This is a JavaScript client for New York City's MTA GTFS-realtime Subway API.
 
 ## Installation
 
 ```bash
-npm install --save mta-realtime-subway-arrival-client
+npm install --save mta-realtime-subway-departures
 ```
 
 ## Usage
 
-Call `client.arrivals()` to get the next subway arrivals for the provided `lines` and `stations`. 
+Call `client.departures()` to get the next subway departures for the provided `lines` and `stations`.
 
 Supported `lines` are defined in [this file](./subwayLineToFeedIdMap.json), and `stations` defined in [this file](GTFSStopIdToStationNameMap.json).
 
 ```js
-const { createClient } = require('mta-realtime-subway-arrival-client');
+const { createClient } = require('mta-realtime-subway-departures');
 
 // Get your API key at http://datamine.mta.info/user
 const MTA_API_KEY = 'Your-API-Key-Here';
 const client = createClient(MTA_API_KEY);
 
-client.arrivals({
+client.departures({
   lines: ['F', 'M'],
   stations: ['2 Av', 'Essex St', 'Delancey St']
-}).then(arrivals => {
-  console.log(arrivals);
+}).then(departures => {
+  console.log(departures);
 });
 ```
 
-`arrivals` data comes as an array of objects:
+`departures` data comes as an array of objects:
 
 ```js
-arrivals = [ 
+departures = [
   { 
     line: 'F',
     direction: 'S',
@@ -51,7 +51,9 @@ arrivals = [
 ];
 ```
 
-### Arrival response structure
+### Departure response structure
+
+A departure object contains the properties:
 
 | Field                  | Description |
 |------------------------|-------------|
@@ -59,7 +61,7 @@ arrivals = [
 | `direction`              | Either `N` or `S` <br /><br />`N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central"  <br /><br />`S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
 | `stopName`              | The stop name, as defined by the MTA's [`Stations.csv`](http://web.mta.info/developers/data/nyct/subway/Stations.csv) |
 | `GTFSStopId` | The GTFS Stop ID |
-| `time` | The arrival time of the train in Unix time |
+| `time` | The departure time of the train in Unix time |
 
 ## External Resources
 
