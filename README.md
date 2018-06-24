@@ -2,6 +2,12 @@
 
 This is a JavaScript client for New York City's MTA GTFS-realtime Subway API.
 
+## Installation
+
+```bash
+npm install --save mta-realtime-subway-arrival-client
+```
+
 ## Usage
 
 Call `client.arrivals()` to get the next subway arrivals for the provided `lines` and `stations`. 
