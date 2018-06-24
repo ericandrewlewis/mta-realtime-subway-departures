@@ -44,7 +44,7 @@ arrivals = [
 | Field                  | Description |
 |------------------------|-------------|
 | line                   | The subway line |
-| direction              | Either `N` or `S` <br />`N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central"  <br />`S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
+| direction              | Either `N` or `S` <br /><br />`N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central"  <br /><br />`S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
 
 `line` the subway line
 
