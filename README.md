@@ -19,20 +19,24 @@ client.arrivals({
 });
 ```
 
-`arrivals` data comes in an array of objects:
+`arrivals` data comes as an array of objects:
 
 ```js
 arrivals = [ 
-  { line: 'F',
+  { 
+    line: 'F',
     direction: 'S',
     stopName: 'Delancey St',
     GTFSStopId: 'F15',
-    time: 1529811805 },
-  { line: 'J',
+    time: 1529811805 
+  },
+  { 
+    line: 'J',
     direction: 'N',
     stopName: 'Essex St',
     GTFSStopId: 'M18',
-    time: 1529811886 },
+    time: 1529811886
+  },
     // ... and more
 ];
 ```
