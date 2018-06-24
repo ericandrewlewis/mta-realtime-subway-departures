@@ -15,11 +15,11 @@ Call `client.arrivals()` to get the next subway arrivals for the provided `lines
 Supported `lines` are defined in [this file](./subwayLineToFeedIdMap.json), and `stations` defined in [this file](GTFSStopIdToStationNameMap.json).
 
 ```js
-const mtaGtfs = require('mta-gtfs');
+const { createClient } = require('mta-realtime-subway-arrival-client');
 
 // Get your API key at http://datamine.mta.info/user
 const MTA_API_KEY = 'Your-API-Key-Here';
-const client = mtaGtfs(MTA_API_KEY);
+const client = createClient(MTA_API_KEY);
 
 client.arrivals({
   lines: ['F', 'M'],
