@@ -31,22 +31,6 @@ const fetchLineFeeds = ({ apiKey, lines }) => {
   );
 };
 
-const extractStopTimeUpdatesFromFeed = feed => feed.entity.map((message) => {
-  if (message.trip_update) {
-    return message.trip_update.stop_time_update.map(async (stopTimeUpdate) => {
-      const stopIdLong = stopTimeUpdate.stop_id;
-      const direction = stopIdLong.substring(stopIdLong.length - 1);
-      const stopId = stopIdLong.substring(0, stopIdLong.length - 1);
-      const stopName = GTFSStopIdToStationNameMap[stopId];
-      const { route_id } = message.trip_update.trip;
-      return Object.assign(stopTimeUpdate, { route_id, stopName, direction });
-    });
-  }
-
-
-  return null;
-}).filter(value => value !== null);
-
 // Provided a group of feed messages, extract arrivals
 // that match the provided lines and stations.
 const extractRelevantArrivalsFromFeedMessages = ({ feedMessages, lines, stations }) => {
