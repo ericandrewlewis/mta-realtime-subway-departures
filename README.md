@@ -1,8 +1,14 @@
-# MTA GTFS-Realtime Subway Arrival API
+# MTA Realtime Subway Arrival API
 
 This is a JavaScript library for New York City's MTA GTFS-realtime Subway API.
 
 ## Usage
+
+Call `client.arrivals()` to get the next subway arrivals for the provided `lines` and `stations`.
+
+Supported `lines` are defined in [this file](./subwayLineToFeedIdMap.json).
+
+You'll need specific station names as defined in [this file](GTFSStopIdToStationNameMap.json).
 
 ```js
 const mtaGtfs = require('mta-gtfs');
@@ -40,6 +46,8 @@ arrivals = [
     // ... and more
 ];
 ```
+
+### Arrival response structure
 
 | Field                  | Description |
 |------------------------|-------------|
