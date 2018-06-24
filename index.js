@@ -102,10 +102,3 @@ const mtaLib = apiKey => ({
       });
   },
 });
-
-const mta = mtaLib('9c53a03b8da895b96df75e8fb6e9ffd5');
-
-mta.arrivals({ lines: ['F', 'A'], stations: ['2 Av', 'W 4 St'] })
-  .then((arrivals) => {
-    console.log(arrivals);
-  });
