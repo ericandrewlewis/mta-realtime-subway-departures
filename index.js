@@ -98,6 +98,7 @@ const createApiClient = apiKey => ({
             }),
           );
         });
+        arrivals = arrivals.sort((a, b) => a.time - b.time);
         return arrivals;
       });
   },
