@@ -5,7 +5,6 @@ const unique = require('array-unique');
 const subwayComplexes = require('mta-subway-complexes');
 const subwayStations = require('mta-subway-stations');
 const subwayLineToFeedIdMap = require('./subwayLineToFeedIdMap');
-const GTFSStopIdToStationNameMap = require('./GTFSStopIdToStationNameMap');
 
 const transit = protobuf.loadProtoFile(
   path.join(__dirname, 'nyct-subway.proto'),
