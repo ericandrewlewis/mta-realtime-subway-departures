@@ -10,7 +10,7 @@ npm install --save mta-realtime-subway-departures
 
 ## Usage
 
-Call `client.departures()` to get the next subway departures for a provided subway complex ID.
+Call `client.departures()` with a subway complex ID to get the next subway departures leaving that station.
 
 Supported complexes are defined in [this file](https://github.com/ericandrewlewis/mta-subway-complexes/blob/master/complexes.json).
 
