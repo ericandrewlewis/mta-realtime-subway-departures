@@ -99,7 +99,7 @@ A response object contains the following properties:
 | `response.lines[lineName].departures.N` | An array of departure objects. `N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central" |
 | `response.lines[lineName].departures.S` | An array of departure objects. `S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
 
-Each departure object includes `time`, a unix timestamp of the next departure, and the routeID (e.g. `A`, `C` or `E` train).
+Each departure object includes `time`, a unix timestamp of the next departure, and the `routeId`, e.g. `A`, `C` or `E` train.
 
 ## External Resources
 
