@@ -27,7 +27,7 @@ client.departures(625)
   });
 ```
 
-A `response` object includes subway departure data, shown here and annotated:
+A `response` object includes subway departure data:
 
 ```js
 {
