@@ -18,6 +18,8 @@
     "array-unique": "^0.3.2",
     "csv-parse": "^2.5.0",
     "dotenv": "^6.0.0",
+    "mta-subway-complexes": "0.0.1",
+    "mta-subway-stations": "git+https://github.com/ericandrewlewis/mta-subway-stations.git",
     "node-fetch": "^2.1.2",
     "protobufjs": "^5.0.1"
   },

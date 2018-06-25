@@ -10,9 +10,9 @@ npm install --save mta-realtime-subway-departures
 
 ## Usage
 
-Call `client.departures()` to get the next subway departures for the provided `lines` and `stations`.
+Call `client.departures()` to get the next subway departures for a provided subway complex ID.
 
-Supported `lines` are defined in [this file](./subwayLineToFeedIdMap.json), and `stations` defined in [this file](GTFSStopIdToStationNameMap.json).
+Supported complexes are defined in [this file](https://github.com/ericandrewlewis/mta-subway-complexes/blob/master/complexes.json).
 
 ```js
 const { createClient } = require('mta-realtime-subway-departures');
@@ -21,47 +21,85 @@ const { createClient } = require('mta-realtime-subway-departures');
 const MTA_API_KEY = 'Your-API-Key-Here';
 const client = createClient(MTA_API_KEY);
 
-client.departures({
-  lines: ['F', 'M'],
-  stations: ['2 Av', 'Essex St', 'Delancey St']
-}).then(departures => {
-  console.log(departures);
-});
+client.departures(602)
+  .then((response) => {
+    console.log(response);
+  });
 ```
 
-`departures` data comes as an array of objects:
+A `response` object includes subway departure data, shown here and annotated:
 
 ```js
-departures = [
-  { 
-    line: 'F',
-    direction: 'S',
-    stopName: 'Delancey St',
-    GTFSStopId: 'F15',
-    time: 1529811805 
-  },
-  { 
-    line: 'J',
-    direction: 'N',
-    stopName: 'Essex St',
-    GTFSStopId: 'M18',
-    time: 1529811886
-  },
-    // ... and more
-];
+{
+  "complexId": 625,
+  "name": "Delancey St / Essex St",
+  "lines": {
+    "Jamaica": {
+      "name": "Jamaica",
+      "departures": {
+        "S": [
+          {
+            "routeId": "J",
+            "time": 1529893528
+          },
+          {
+            "routeId": "M",
+            "time": 1529893530
+          }
+        ],
+        "N": [
+          {
+            "routeId": "J",
+            "time": 1529892874
+          },
+          {
+            "routeId": "M",
+            "time": 1529893154
+          }
+        ]
+      }
+    },
+    "6th Av - Culver": {
+      "name": "6th Av - Culver",
+      "departures": {
+        "S": [
+          {
+            "routeId": "F",
+            "time": 1529892957
+          },
+          {
+            "routeId": "F",
+            "time": 1529893669
+          }
+        ],
+        "N": [
+          {
+            "routeId": "F",
+            "time": 1529892949
+          },
+          {
+            "routeId": "F",
+            "time": 1529893734
+          }
+        ]
+      }
+    }
+  }
+}
 ```
 
-### Departure response structure
+### Response structure
 
-A departure object contains the properties:
+A response object contains the following properties:
 
 | Field                  | Description |
 |------------------------|-------------|
-| `line`                   | The subway line |
-| `direction`              | Either `N` or `S` <br /><br />`N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central"  <br /><br />`S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
-| `stopName`              | The stop name, as defined by the MTA's [`Stations.csv`](http://web.mta.info/developers/data/nyct/subway/Stations.csv) |
-| `GTFSStopId` | The GTFS Stop ID |
-| `time` | The departure time of the train in Unix time |
+| `response.lines`             | Departures are categorized into each separate line that serves the complex (e.g. there are two lines at Essex St-Delancey St, the Jamaica-Broad St JMZ line and the 6th Avenue F line) |
+| `response.lines[lineName].departures` | Departures are split between north-bound and southbound trains |
+| `response.lines[lineName].departures.N` | An array of departure objects. `N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central" |
+| `response.lines[lineName].departures.S` | An array of departure objects. `S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
+
+Each departure object includes `time`, a unix timestamp of the next departure, and the routeID (e.g. `A`, `C` or `E` train).
 
 ## External Resources
 
