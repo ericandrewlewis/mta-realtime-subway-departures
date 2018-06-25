@@ -3,12 +3,14 @@ require('dotenv').config();
 
 const client = createClient(process.env.MTA_API_KEY);
 
-client.departures(625)
+// West 4th street
+client.departures(167)
   .then((response) => {
-    for (line in response.lines) {
-      if (response.lines[line].departures.N.length < 1) {
-        throw new Error(`There should be departures, none found: \n${JSON.stringify(departures[0], null, 2)}`);
-      }
+    if (!response.lines['6th Av - Culver']) {
+      throw new Error(`There should be departures for the 6th Av - Culver line, none found: \n${JSON.stringify(response, null, 2)}`);
+    }
+    if (!response.lines['8th Av - Fulton St']) {
+      throw new Error(`There should be departures for the 8th Av - Fulton St line, none found: \n${JSON.stringify(response, null, 2)}`);
     }
   });
 

@@ -56,8 +56,7 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
         return;
       }
       const direction = stopIdAndDirection.substring(stopIdAndDirection.length - 1);
-      let stationId = gtfsStopIdToStationId(gtfsStopId);
-      const station = subwayStations[stationId];
+      const station = gtfsStopIdToStation(gtfsStopId);
       const line = station.Line;
       if (!response.lines[line]) {
         response.lines[line] = {
@@ -99,17 +98,16 @@ let gtfsStopIdToComplexId;
   gtfsStopIdToComplexId = gtfsStopId => map[gtfsStopId];
 }
 
-let gtfsStopIdToStationId;
+let gtfsStopIdToStation;
 {
   const map = {};
-  for (key in subwayStations) {
-    const station = subwayStations[key];
+  subwayStations.forEach(station => {
     const gtfsStopId = station['GTFS Stop ID'];
-    map[gtfsStopId] = station['Station ID'];
-  }
-  // Patch for a bug in Stations.csv where there are two entries for West 4th street.
-  map["A32"] = "167";
-  gtfsStopIdToStationId = gtfsStopId => map[gtfsStopId];
+    map[gtfsStopId] = station;
+  });
+  gtfsStopIdToStation = gtfsStopId => {
+    return map[gtfsStopId];
+  };
 }
 
 const fetchDepartures = ({ apiKey, complexId }) => {
