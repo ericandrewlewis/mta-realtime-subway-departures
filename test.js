@@ -14,4 +14,12 @@ client.departures(167)
     }
   });
 
-console.log('Tests complete');
+  // Multiple complex IDs
+  client.departures([167, 232])
+  .then((responses) => {
+    if (responses.length !== 2) {
+      throw new Error(`There should be two responses: \n${JSON.stringify(response, null, 2)}`);
+    }
+  });
+
+console.log('💁‍♀️ All tests pass.');

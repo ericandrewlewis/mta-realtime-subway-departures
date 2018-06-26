@@ -92,8 +92,6 @@ let gtfsStopIdToComplexId;
     const complexId = station['Complex ID'];
     map[gtfsStopId] = complexId;
   }
-  // Patch for a bug in Stations.csv where there are two entries for West 4th street.
-  map["A32"] = "167";
   gtfsStopIdToComplexId = gtfsStopId => map[gtfsStopId];
 }
 
@@ -104,34 +102,46 @@ let gtfsStopIdToStation;
     const gtfsStopId = station['GTFS Stop ID'];
     map[gtfsStopId] = station;
   });
-  gtfsStopIdToStation = gtfsStopId => {
-    return map[gtfsStopId];
-  };
+  gtfsStopIdToStation = gtfsStopId => map[gtfsStopId];
 }
 
-const fetchDepartures = ({ apiKey, complexId }) => {
-  const lines = linesForComplex(complexId);
+const fetchDepartures = ({ apiKey, complexIds }) => {
+  if (!Array.isArray(complexIds)) {
+    complexIds = [complexIds];
+  }
+  let lines = [];
+  complexIds.forEach(complexId => {
+    lines = lines.concat(linesForComplex(complexId));
+  });
+  lines = unique(lines);
   return fetchLineFeeds({ apiKey, lines })
     .then((feeds) => {
-      const response = {
-        complexId,
-        name: subwayComplexes[complexId].name,
-        lines: {},
-      };
-      feeds.forEach((feed) => {
-        const _response = addToResponseFromFeedMessages({
-          feedMessages: feed.entity,
+      const responses = [];
+      complexIds.forEach(complexId => {
+        const response = {
           complexId,
-          response
+          name: subwayComplexes[complexId].name,
+          lines: {},
+        };
+        feeds.forEach((feed) => {
+          addToResponseFromFeedMessages({
+            feedMessages: feed.entity,
+            complexId,
+            response
+          });
         });
+        responses.push(response);
       });
-      return response;
+      if (responses.length === 1) {
+        return responses[0];
+      }
+      return responses;
     });
 };
 
 const createClient = apiKey => ({
-  departures(complexId) {
-    return fetchDepartures({ apiKey, complexId });
+  departures(complexIds) {
+    return fetchDepartures({ apiKey, complexIds });
   },
 });
 
