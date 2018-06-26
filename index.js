@@ -59,6 +59,7 @@ let gtfsStopIdToStation;
 // that match the provided lines and stations.
 const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) => {
   complexId = complexId.toString();
+  const nowInUnix = Math.floor(Date.now() / 1000);
   feedMessages.forEach((feedMessage) => {
     // Skip feedMessages that don't include a trip update.
     if (!feedMessage.trip_update) {
@@ -92,6 +93,9 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
         lineIndex = response.lines.length - 1;
       }
       const time = stopTimeUpdate.departure.time.low;
+      if (time < nowInUnix) {
+        return;
+      }
       const departure = {
         routeId,
         time,
