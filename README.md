@@ -25,6 +25,13 @@ client.departures(625)
   .then((response) => {
     console.log(response);
   });
+
+// Also accepts an array of complex IDs.
+client.departures([625, 232])
+  .then((responses) => {
+    // Responses is an array of response objects.
+    console.log(responses);
+  });
 ```
 
 A `response` object includes subway departure data:
