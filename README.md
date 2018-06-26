@@ -38,60 +38,60 @@ A `response` object includes subway departure data:
 
 ```js
 {
-  "complexId": 625,
-  "name": "Delancey St / Essex St",
-  "lines": {
-    "Jamaica": {
-      "name": "Jamaica",
+  "complexId": 167,
+  "name": "W 4 St",
+  "lines": [
+    {
+      "name": "8th Av - Fulton St",
       "departures": {
         "S": [
           {
-            "routeId": "J",
-            "time": 1529893528
+            "routeId": "E",
+            "time": 1529986687
           },
           {
-            "routeId": "M",
-            "time": 1529893530
+            "routeId": "A",
+            "time": 1529986968
           }
         ],
         "N": [
           {
-            "routeId": "J",
-            "time": 1529892874
+            "routeId": "A",
+            "time": 1529986424
           },
           {
-            "routeId": "M",
-            "time": 1529893154
+            "routeId": "E",
+            "time": 1529986680
           }
         ]
       }
     },
-    "6th Av - Culver": {
+    {
       "name": "6th Av - Culver",
       "departures": {
         "S": [
           {
-            "routeId": "F",
-            "time": 1529892957
+            "routeId": "D",
+            "time": 1529986476
           },
           {
-            "routeId": "F",
-            "time": 1529893669
+            "routeId": "D",
+            "time": 1529986751
           }
         ],
         "N": [
           {
-            "routeId": "F",
-            "time": 1529892949
+            "routeId": "D",
+            "time": 1529986621
           },
           {
             "routeId": "F",
-            "time": 1529893734
+            "time": 1529986717
           }
         ]
       }
     }
-  }
+  ]
 }
 ```
 
@@ -101,10 +101,10 @@ A response object contains the following properties:
 
 | Field                  | Description |
 |------------------------|-------------|
-| `response.lines`             | Departures are categorized into each separate line that serves the complex (e.g. there are two lines at Essex St-Delancey St, the Jamaica-Broad St JMZ line and the 6th Avenue F line) |
-| `response.lines[lineName].departures` | Departures are split between north-bound and southbound trains |
-| `response.lines[lineName].departures.N` | An array of departure objects. `N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central" |
-| `response.lines[lineName].departures.S` | An array of departure objects. `S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
+| `response.lines`             | Departures are categorized into each separate line that serves the complex (e.g. there are two lines at West 4th Street, the 6th Av - Culver BDFM line and the 8th Av - Fulton St ACE line) |
+| `response.lines[index].departures` | Departures are split between north-bound and southbound trains |
+| `response.lines[index].departures.N` | An array of departure objects. `N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central" |
+| `response.lines[index].departures.S` | An array of departure objects. `S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
 
 Each departure object includes `time`, a unix timestamp of the next departure, and the `routeId`, e.g. `A`, `C` or `E` train.
 

@@ -32,6 +32,29 @@ const fetchLineFeeds = ({ apiKey, lines }) => {
   );
 };
 
+const linesForComplex = complexId => subwayComplexes[complexId].daytimeRoutes;
+
+let gtfsStopIdToComplexId;
+{
+  const map = {};
+  subwayStations.forEach((station) => {
+    const gtfsStopId = station['GTFS Stop ID'];
+    const complexId = station['Complex ID'];
+    map[gtfsStopId] = complexId;
+  });
+  gtfsStopIdToComplexId = gtfsStopId => map[gtfsStopId];
+}
+
+let gtfsStopIdToStation;
+{
+  const map = {};
+  subwayStations.forEach((station) => {
+    const gtfsStopId = station['GTFS Stop ID'];
+    map[gtfsStopId] = station;
+  });
+  gtfsStopIdToStation = gtfsStopId => map[gtfsStopId];
+}
+
 // Provided a group of feed messages, extract departures
 // that match the provided lines and stations.
 const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) => {
@@ -39,7 +62,7 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
   feedMessages.forEach((feedMessage) => {
     // Skip feedMessages that don't include a trip update.
     if (!feedMessage.trip_update) {
-      return false;
+      return;
     }
 
     const routeId = feedMessage.trip_update.trip.route_id;
@@ -50,85 +73,63 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
       }
       const stopIdAndDirection = stopTimeUpdate.stop_id;
       const gtfsStopId = stopIdAndDirection.substring(0, stopIdAndDirection.length - 1);
-      let stopTimeComplexId = gtfsStopIdToComplexId(gtfsStopId);
+      const stopTimeComplexId = gtfsStopIdToComplexId(gtfsStopId);
       if (stopTimeComplexId !== complexId) {
         return;
       }
       const direction = stopIdAndDirection.substring(stopIdAndDirection.length - 1);
       const station = gtfsStopIdToStation(gtfsStopId);
-      const line = station.Line;
-      if (!response.lines[line]) {
-        response.lines[line] = {
-          name: line,
+      const lineName = station.Line;
+      let lineIndex = response.lines.findIndex(line => line.name === lineName);
+      if (lineIndex === -1) {
+        response.lines.push({
+          name: lineName,
           departures: {
             S: [],
             N: [],
           },
-        };
+        });
+        lineIndex = response.lines.length - 1;
       }
       const time = stopTimeUpdate.departure.time.low;
       const departure = {
         routeId,
         time,
       };
-      response.lines[line].departures[direction].push(departure);
+      response.lines[lineIndex].departures[direction].push(departure);
     });
   });
-  for (key in response.lines) {
-    response.lines[key].departures.S = response.lines[key].departures.S.sort((a, b) => a.time - b.time);
-    response.lines[key].departures.N = response.lines[key].departures.N.sort((a, b) => a.time - b.time);
-  }
   return response;
 };
-
-const linesForComplex = complexId => subwayComplexes[complexId].daytimeRoutes;
-
-let gtfsStopIdToComplexId;
-{
-  const map = {};
-  for (key in subwayStations) {
-    const station = subwayStations[key];
-    const gtfsStopId = station['GTFS Stop ID'];
-    const complexId = station['Complex ID'];
-    map[gtfsStopId] = complexId;
-  }
-  gtfsStopIdToComplexId = gtfsStopId => map[gtfsStopId];
-}
-
-let gtfsStopIdToStation;
-{
-  const map = {};
-  subwayStations.forEach(station => {
-    const gtfsStopId = station['GTFS Stop ID'];
-    map[gtfsStopId] = station;
-  });
-  gtfsStopIdToStation = gtfsStopId => map[gtfsStopId];
-}
 
 const fetchDepartures = ({ apiKey, complexIds }) => {
   if (!Array.isArray(complexIds)) {
     complexIds = [complexIds];
   }
   let lines = [];
-  complexIds.forEach(complexId => {
+  complexIds.forEach((complexId) => {
     lines = lines.concat(linesForComplex(complexId));
   });
   lines = unique(lines);
   return fetchLineFeeds({ apiKey, lines })
     .then((feeds) => {
       const responses = [];
-      complexIds.forEach(complexId => {
+      complexIds.forEach((complexId) => {
         const response = {
           complexId,
           name: subwayComplexes[complexId].name,
-          lines: {},
+          lines: [],
         };
         feeds.forEach((feed) => {
           addToResponseFromFeedMessages({
             feedMessages: feed.entity,
             complexId,
-            response
+            response,
           });
+        });
+        response.lines.forEach((line) => {
+          line.departures.S = line.departures.S.sort((a, b) => a.time - b.time);
+          line.departures.N = line.departures.N.sort((a, b) => a.time - b.time);
         });
         responses.push(response);
       });
