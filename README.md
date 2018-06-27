@@ -46,22 +46,26 @@ A `response` object includes subway departure data:
       "departures": {
         "S": [
           {
-            "routeId": "E",
-            "time": 1529986687
+            "routeId": "A",
+            "time": 1530134035,
+            "destinationStationId": "209"
           },
           {
-            "routeId": "A",
-            "time": 1529986968
+            "routeId": "E",
+            "time": 1530134234,
+            "destinationStationId": "171"
           }
         ],
         "N": [
           {
-            "routeId": "A",
-            "time": 1529986424
+            "routeId": "C",
+            "time": 1530134007,
+            "destinationStationId": "302"
           },
           {
             "routeId": "E",
-            "time": 1529986680
+            "time": 1530134010,
+            "destinationStationId": "278"
           }
         ]
       }
@@ -71,28 +75,33 @@ A `response` object includes subway departure data:
       "departures": {
         "S": [
           {
-            "routeId": "D",
-            "time": 1529986476
+            "routeId": "B",
+            "time": 1530134084,
+            "destinationStationId": "55"
           },
           {
             "routeId": "D",
-            "time": 1529986751
+            "time": 1530134272,
+            "destinationStationId": "58"
           }
         ],
         "N": [
           {
-            "routeId": "D",
-            "time": 1529986621
+            "routeId": "M",
+            "time": 1530134182,
+            "destinationStationId": "114"
           },
           {
             "routeId": "F",
-            "time": 1529986717
+            "time": 1530134222,
+            "destinationStationId": "254"
           }
         ]
       }
     }
   ]
 }
+
 ```
 
 ### Response structure
@@ -106,7 +115,7 @@ A response object contains the following properties:
 | `response.lines[index].departures.N` | An array of departure objects. `N` means `North`, and refers to "Uptown and Bronx-bound trains" and "Times Square Shuttle to Grand Central" |
 | `response.lines[index].departures.S` | An array of departure objects. `S` means `South`, and refers to "Downtown and Brooklyn-bound trains" and "Times Square Shuttle to Times Square" |
 
-Each departure object includes `time`, a unix timestamp of the next departure, and the `routeId`, e.g. `A`, `C` or `E` train.
+Each departure object includes `time`, a unix timestamp of the next departure, the `routeId`, e.g. `A`, `C` or `E` train, and `destinationStationId` where the train is headed (see [mta-subway-stations](https://www.npmjs.com/package/mta-subway-stations) for a list of stations).
 
 ## External Resources
 
