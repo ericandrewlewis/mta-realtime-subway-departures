@@ -5,6 +5,7 @@ const unique = require('array-unique');
 const subwayComplexes = require('mta-subway-complexes');
 const subwayStations = require('mta-subway-stations');
 const subwayLineToFeedIdMap = require('./subwayLineToFeedIdMap');
+const destinationLocationToComplexIdMap = require('./destinationLocationToComplexIdMap');
 
 const transit = protobuf.loadProtoFile(
   path.join(__dirname, 'nyct-subway.proto'),
@@ -67,7 +68,9 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
     }
 
     const routeId = feedMessage.trip_update.trip.route_id;
-
+    const trainIdExploded = feedMessage.trip_update.trip['.nyct_trip_descriptor'].train_id.split(' ');
+    const destinationLocation = trainIdExploded[trainIdExploded.length - 1 ].split('/')[1];
+    const destinationStationId = destinationLocationToComplexIdMap[destinationLocation];
     feedMessage.trip_update.stop_time_update.forEach((stopTimeUpdate) => {
       if (stopTimeUpdate.departure === null) {
         return;
@@ -99,6 +102,7 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
       const departure = {
         routeId,
         time,
+        destinationStationId
       };
       response.lines[lineIndex].departures[direction].push(departure);
     });
