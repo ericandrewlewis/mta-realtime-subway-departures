@@ -1,6 +1,6 @@
 {
   "name": "mta-realtime-subway-departures",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Access realtime subway departure data for the New York City subway system.",
   "main": "index.js",
   "scripts": {
