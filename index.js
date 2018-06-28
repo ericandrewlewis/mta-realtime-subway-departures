@@ -18,6 +18,29 @@ const buildFeedUrl = ({ apiKey, line }) => {
   return `http://datamine.mta.info/mta_esi.php?key=${apiKey}&feed_id=${feedId}`;
 };
 
+const feedCache = {};
+
+const fetchFeedUrl = feedUrl => {
+  if (feedCache[feedUrl]) {
+    const nowInUnix = Math.floor(Date.now() / 1000);
+    if (nowInUnix - feedCache[feedUrl].createdAt > 20) {
+      Reflect.deleteProperty(feedCache[feedUrl]);
+    } else {
+      return feedCache[feedUrl].value;
+    }
+  }
+
+  return fetch(feedUrl)
+    .then(response => response.arrayBuffer())
+    .then(buffer => {
+      const value = builder.FeedMessage.decode(buffer);
+      feedCache[feedUrl] = {
+        createdAt: nowInUnix = Math.floor(Date.now() / 1000),
+        value
+      }
+      return value;
+    })
+}
 // Fetch the API feeds for the provided subway lines.
 // Returns a Promise that resolves with the JSON data for all requests.
 const fetchLineFeeds = ({ apiKey, lines }) => {
@@ -27,9 +50,7 @@ const fetchLineFeeds = ({ apiKey, lines }) => {
     ),
   );
   return Promise.all(
-    feedUrls.map(feedUrl => fetch(feedUrl)
-      .then(response => response.arrayBuffer())
-      .then(buffer => builder.FeedMessage.decode(buffer))),
+    feedUrls.map(feedUrl => fetchFeedUrl(feedUrl))
   );
 };
 
