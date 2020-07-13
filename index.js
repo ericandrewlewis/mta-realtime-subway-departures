@@ -13,14 +13,13 @@ const transit = protobuf.loadProtoFile(
 const builder = transit.build('transit_realtime');
 
 // Construct an apiUrl for the provided subway line.
-const buildFeedUrl = ({ apiKey, line }) => {
-  const feedId = subwayLineToFeedIdMap[line];
-  return `http://datamine.mta.info/mta_esi.php?key=${apiKey}&feed_id=${feedId}`;
+const buildFeedUrl = ({ line }) => {
+  return subwayLineToFeedIdMap[line];
 };
 
 const feedCache = {};
 
-const fetchFeedUrl = feedUrl => {
+const fetchFeedUrl = (apiKey, feedUrl) => {
   if (feedCache[feedUrl]) {
     const nowInUnix = Math.floor(Date.now() / 1000);
     if (nowInUnix - feedCache[feedUrl].createdAt > 20) {
@@ -30,7 +29,7 @@ const fetchFeedUrl = feedUrl => {
     }
   }
 
-  return fetch(feedUrl)
+  return fetch(feedUrl, { headers: { 'x-api-key': apiKey } })
     .then(response => response.arrayBuffer())
     .then(buffer => {
       const value = builder.FeedMessage.decode(buffer);
@@ -46,11 +45,11 @@ const fetchFeedUrl = feedUrl => {
 const fetchLineFeeds = ({ apiKey, lines }) => {
   const feedUrls = unique(
     lines.map(
-      line => buildFeedUrl({ apiKey, line }),
+      line => buildFeedUrl({ line }),
     ),
   );
   return Promise.all(
-    feedUrls.map(feedUrl => fetchFeedUrl(feedUrl))
+    feedUrls.map(feedUrl => fetchFeedUrl(apiKey, feedUrl))
   );
 };
 
