@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const unique = require('array-unique');
 const subwayComplexes = require('mta-subway-complexes');
 const subwayStations = require('mta-subway-stations');
-const subwayLineToFeedIdMap = require('./subwayLineToFeedIdMap');
+const subwayLineToFeedUrlMap = require('./subwayLineToFeedUrlMap');
 const destinationLocationToComplexIdMap = require('./destinationLocationToComplexIdMap');
 
 const transit = protobuf.loadProtoFile(
@@ -12,10 +12,7 @@ const transit = protobuf.loadProtoFile(
 );
 const builder = transit.build('transit_realtime');
 
-// Construct an apiUrl for the provided subway line.
-const buildFeedUrl = ({ line }) => {
-  return subwayLineToFeedIdMap[line];
-};
+const feedUrlForLine = (line) => subwayLineToFeedUrlMap[line];
 
 const feedCache = {};
 
@@ -45,7 +42,7 @@ const fetchFeedUrl = (apiKey, feedUrl) => {
 const fetchLineFeeds = ({ apiKey, lines }) => {
   const feedUrls = unique(
     lines.map(
-      line => buildFeedUrl({ line }),
+      line => feedUrlForLine(line),
     ),
   );
   return Promise.all(
