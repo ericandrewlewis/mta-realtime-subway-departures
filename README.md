@@ -17,7 +17,7 @@ Supported complexes are defined in [this file](https://github.com/ericandrewlewi
 ```js
 const { createClient } = require('mta-realtime-subway-departures');
 
-// Get your API key at http://datamine.mta.info/user
+// Get your API key at https://api.mta.info
 const MTA_API_KEY = 'Your-API-Key-Here';
 const client = createClient(MTA_API_KEY);
 
