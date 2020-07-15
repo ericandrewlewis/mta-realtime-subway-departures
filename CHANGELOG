@@ -1,0 +1,8 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+
+## [0.0.14] - 2020-07-15
+
+### Fixed
+
+ - Follows the MTA API changes, which moved from `datamine.mta.info` to `api.mta.info` See [#4](https://github.com/ericandrewlewis/mta-realtime-subway-departures/pull/4)
