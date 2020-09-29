@@ -7,10 +7,9 @@ const subwayStations = require('mta-subway-stations');
 const subwayLineToFeedUrlMap = require('./subwayLineToFeedUrlMap');
 const destinationLocationToComplexIdMap = require('./destinationLocationToComplexIdMap');
 
-const transit = protobuf.loadProtoFile(
-  path.join(__dirname, 'nyct-subway.proto'),
-);
-const builder = transit.build('transit_realtime');
+const nyctSubwayProtoRoot = protobuf.loadSync(path.join(__dirname, 'nyct-subway.proto'));
+
+const FeedMessage = nyctSubwayProtoRoot.lookupType("transit_realtime.FeedMessage");
 
 const feedUrlForLine = (line) => subwayLineToFeedUrlMap[line];
 
@@ -27,9 +26,10 @@ const fetchFeedUrl = (apiKey, feedUrl) => {
   }
 
   return fetch(feedUrl, { headers: { 'x-api-key': apiKey } })
-    .then(response => response.arrayBuffer())
+    .then(response => response.buffer())
     .then(buffer => {
-      const value = builder.FeedMessage.decode(buffer);
+      const uint8array = new Uint8Array(buffer);
+      const value = FeedMessage.decode(uint8array);
       feedCache[feedUrl] = {
         createdAt: nowInUnix = Math.floor(Date.now() / 1000),
         value
@@ -80,19 +80,19 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
   const nowInUnix = Math.floor(Date.now() / 1000);
   feedMessages.forEach((feedMessage) => {
     // Skip feedMessages that don't include a trip update.
-    if (!feedMessage.trip_update) {
+    if (!feedMessage.tripUpdate) {
       return;
     }
 
-    const routeId = feedMessage.trip_update.trip.route_id;
-    const trainIdExploded = feedMessage.trip_update.trip['.nyct_trip_descriptor'].train_id.split(' ');
+    const routeId = feedMessage.tripUpdate.trip.routeId;
+    const trainIdExploded = feedMessage.tripUpdate.trip['.nyctTripDescriptor'].trainId.split(' ');
     const destinationLocation = trainIdExploded[trainIdExploded.length - 1 ].split('/')[1];
     const destinationStationId = destinationLocationToComplexIdMap[destinationLocation];
-    feedMessage.trip_update.stop_time_update.forEach((stopTimeUpdate) => {
+    feedMessage.tripUpdate.stopTimeUpdate.forEach((stopTimeUpdate) => {
       if (stopTimeUpdate.departure === null) {
         return;
       }
-      const stopIdAndDirection = stopTimeUpdate.stop_id;
+      const stopIdAndDirection = stopTimeUpdate.stopId;
       const gtfsStopId = stopIdAndDirection.substring(0, stopIdAndDirection.length - 1);
       const stopTimeComplexId = gtfsStopIdToComplexId(gtfsStopId);
       if (stopTimeComplexId !== complexId) {

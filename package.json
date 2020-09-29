@@ -21,7 +21,7 @@
     "mta-subway-complexes": "0.0.1",
     "mta-subway-stations": "0.0.2",
     "node-fetch": "^2.1.2",
-    "protobufjs": "^5.0.1"
+    "protobufjs": "^6.10.1"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
