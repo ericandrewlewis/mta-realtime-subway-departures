@@ -4,8 +4,7 @@
   "description": "Access realtime subway departure data for the New York City subway system.",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js",
-    "lint": "eslint index.js test.js writeStationsJson.js writeGTFSStopIdToStationIdMap.js"
+    "test": "node test.js"
   },
   "keywords": [
     "nyc",
@@ -16,16 +15,11 @@
   "license": "MIT",
   "dependencies": {
     "array-unique": "^0.3.2",
-    "csv-parse": "^2.5.0",
-    "dotenv": "^6.0.0",
-    "mta-subway-complexes": "0.0.1",
-    "mta-subway-stations": "0.0.2",
-    "node-fetch": "^2.1.2",
+    "dotenv": "^8.2.0",
+    "mta-subway-complexes": "^1.0.0",
+    "mta-subway-stations": "^1.0.0",
+    "node-fetch": "^2.6.1",
     "protobufjs": "^6.10.1"
   },
-  "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.12.0"
-  }
+  "devDependencies": {}
 }
