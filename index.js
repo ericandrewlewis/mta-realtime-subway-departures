@@ -44,7 +44,7 @@ const fetchLineFeeds = ({ apiKey, lines }) => {
     lines.map(
       line => feedUrlForLine(line),
     ),
-  );
+  ).filter(url => url != "");
   return Promise.all(
     feedUrls.map(feedUrl => fetchFeedUrl(apiKey, feedUrl))
   );
