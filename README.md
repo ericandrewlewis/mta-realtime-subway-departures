@@ -118,7 +118,7 @@ A response object contains the following properties:
 Each departure object includes `time`, a unix timestamp of the next departure, the `routeId`, e.g. `A`, `C` or `E` train, and `destinationStationId` where the train is headed (see [mta-subway-stations](https://www.npmjs.com/package/mta-subway-stations) for a list of stations).
 
 ## External Resources
+* _note you must be logged in to view the links below_
 
-[GTFS-realtime Reference for the New York City Subway](http://datamine.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf), a document that describes the fields in the API result.
-
-[The list of separate feed URLs](http://datamine.mta.info/list-of-feeds)
+[Using MTA Realtime Feeds](https://api.mta.info/#/HelpDocument)
+[The list of separate feed URLs](https://api.mta.info/sites/all/files/pdfs/GTFS-Realtime-NYC-Subway%20version%201%20dated%207%20Sep.pdf#/subwayRealTimeFeeds)
