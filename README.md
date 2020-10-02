@@ -2,13 +2,13 @@
 
 This is a JavaScript client for New York City's MTA GTFS-realtime Subway API.
 
-## Installation
+## 🚧 Installation
 
 ```bash
 npm install --save mta-realtime-subway-departures
 ```
 
-## Usage
+## ℹ️ Usage
 
 Call `client.departures()` with a subway complex ID to get the next subway departures leaving that station.
 
@@ -104,7 +104,7 @@ A `response` object includes subway departure data:
 
 ```
 
-### Response structure
+### 🔃 Response structure
 
 A response object contains the following properties:
 
@@ -117,7 +117,7 @@ A response object contains the following properties:
 
 Each departure object includes `time`, a unix timestamp of the next departure, the `routeId`, e.g. `A`, `C` or `E` train, and `destinationStationId` where the train is headed (see [mta-subway-stations](https://www.npmjs.com/package/mta-subway-stations) for a list of stations).
 
-## External Resources
+## 🌎 External Resources
 * _note you must be logged in to view the links below_
 
 [Using MTA Realtime Feeds](https://api.mta.info/#/HelpDocument)
