@@ -121,4 +121,5 @@ Each departure object includes `time`, a unix timestamp of the next departure, t
 * _note you must be logged in to view the links below_
 
 [Using MTA Realtime Feeds](https://api.mta.info/#/HelpDocument)
+
 [The list of separate feed URLs](https://api.mta.info/#/subwayRealTimeFeeds)
