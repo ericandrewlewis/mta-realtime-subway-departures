@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.0] - 2020-09-29
 
-Update dependencies.
+ - Update dependencies.
+ - API calls for Staten Island Railway.
 
 ## [1.0.0] - 2020-07-18
 
