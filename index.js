@@ -105,6 +105,7 @@ const addToResponseFromFeedMessages = ({ feedMessages, complexId, response }) =>
       if (lineIndex === -1) {
         response.lines.push({
           name: lineName,
+          stationId: station['Station ID'],
           departures: {
             S: [],
             N: [],
