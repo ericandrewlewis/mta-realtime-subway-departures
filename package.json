@@ -19,7 +19,7 @@
     "mta-subway-complexes": "^1.0.0",
     "mta-subway-stations": "^1.0.0",
     "node-fetch": "^2.6.1",
-    "protobufjs": "^6.10.1"
+    "protobufjs": "^7.2.4"
   },
   "devDependencies": {}
 }
